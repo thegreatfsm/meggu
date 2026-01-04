@@ -28,7 +28,6 @@ function createPhotoCard(photo, number) {
 
     card.innerHTML = `
         <div class="photo-wrapper">
-            <div class="photo-number">${number}</div>
             <img
                 src="photos/${photo.filename}"
                 alt="${photo.caption}"
