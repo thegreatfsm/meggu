@@ -55,49 +55,40 @@ function createPhotoCard(photo, number) {
 
 function initDragScroll() {
     const slider = document.querySelector('.timeline-wrapper');
-    let isDown = false;
-    let startX;
-    let scrollLeft;
 
-    slider.addEventListener('mousedown', (e) => {
-        isDown = true;
-        slider.style.cursor = 'grabbing';
-        startX = e.pageX - slider.offsetLeft;
-        scrollLeft = slider.scrollLeft;
-    });
+    // Only enable drag on desktop
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-    slider.addEventListener('mouseleave', () => {
-        isDown = false;
-        slider.style.cursor = 'grab';
-    });
+    if (!isMobile) {
+        let isDown = false;
+        let startX;
+        let scrollLeft;
 
-    slider.addEventListener('mouseup', () => {
-        isDown = false;
-        slider.style.cursor = 'grab';
-    });
+        slider.addEventListener('mousedown', (e) => {
+            isDown = true;
+            slider.style.cursor = 'grabbing';
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
 
-    slider.addEventListener('mousemove', (e) => {
-        if (!isDown) return;
-        e.preventDefault();
-        const x = e.pageX - slider.offsetLeft;
-        const walk = (x - startX) * 2; // Scroll speed multiplier
-        slider.scrollLeft = scrollLeft - walk;
-    });
+        slider.addEventListener('mouseleave', () => {
+            isDown = false;
+            slider.style.cursor = 'grab';
+        });
 
-    // Touch support for mobile
-    let touchStartX = 0;
-    let touchScrollLeft = 0;
+        slider.addEventListener('mouseup', () => {
+            isDown = false;
+            slider.style.cursor = 'grab';
+        });
 
-    slider.addEventListener('touchstart', (e) => {
-        touchStartX = e.touches[0].pageX;
-        touchScrollLeft = slider.scrollLeft;
-    }, { passive: true });
-
-    slider.addEventListener('touchmove', (e) => {
-        const touchX = e.touches[0].pageX;
-        const walk = (touchStartX - touchX) * 1.5;
-        slider.scrollLeft = touchScrollLeft + walk;
-    }, { passive: true });
+        slider.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 2;
+            slider.scrollLeft = scrollLeft - walk;
+        });
+    }
 }
 
 // Lightbox functionality
